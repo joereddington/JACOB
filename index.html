@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jacob Marley</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="wrap">
+    <section class="left panel">
+      <div id="countdown" class="countdown" aria-live="polite">30</div>
+    </section>
+
+    <section class="right panel">
+      <div id="qr-stage" class="qr-stage">
+        <div id="qrcode" class="qrcode" aria-label="QR code"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="thanks" class="thanks hidden">Thank you!</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const startSeconds = parseInt(params.get('seconds') || '30', 10);
+    const targetUrl = params.get('url') || 'https://example.com';
+    const thankYouMessage = params.get('message') || 'Thank you';
+    const effect = (params.get('effect') || 'shrink').toLowerCase();
+
+    const countdownEl = document.getElementById('countdown');
+    const qrStageEl = document.getElementById('qr-stage');
+    const qrCodeEl = document.getElementById('qrcode');
+    const thanksEl = document.getElementById('thanks');
+
+    thanksEl.textContent = thankYouMessage;
+
+    let remaining = Number.isFinite(startSeconds) ? startSeconds : 30;
+    if (remaining < 0) remaining = 0;
+    countdownEl.textContent = remaining;
+
+    new QRCode(qrCodeEl, {
+      text: targetUrl,
+      width: 500,
+      height: 500,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    function finish() {
+      countdownEl.classList.add('hide');
+
+      if (effect === 'fade') {
+        qrStageEl.classList.add('vanish-fade');
+      } else {
+        qrStageEl.classList.add('vanish-shrink');
+      }
+
+      window.setTimeout(() => {
+        qrStageEl.classList.add('hidden');
+        thanksEl.classList.remove('hidden');
+        thanksEl.classList.add('show');
+      }, 900);
+    }
+
+    if (remaining === 0) {
+      finish();
+    } else {
+      const timer = window.setInterval(() => {
+        remaining -= 1;
+        countdownEl.textContent = remaining;
+
+        if (remaining <= 0) {
+          window.clearInterval(timer);
+          countdownEl.textContent = 0;
+          finish();
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
