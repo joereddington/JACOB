@@ -7,19 +7,25 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="wrap">
-    <section class="left panel">
-      <div id="countdown" class="countdown" aria-live="polite">30</div>
-    </section>
+  <main class="page">
+    <header class="topline">
+      Please fill out the attendance form
+    </header>
 
-    <section class="right panel">
-      <div id="qr-stage" class="qr-stage">
-        <div id="qrcode" class="qrcode" aria-label="QR code"></div>
-      </div>
+    <section class="wrap">
+      <section class="left panel">
+        <div id="countdown" class="countdown" aria-live="polite">30</div>
+      </section>
+
+      <section class="right panel">
+        <div id="qr-stage" class="qr-stage">
+          <div id="qrcode" class="qrcode" aria-label="QR code"></div>
+        </div>
+      </section>
     </section>
   </main>
 
-  <div id="thanks" class="thanks hidden">Thank you!</div>
+  <div id="thanks" class="thanks hidden">Thank you</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
